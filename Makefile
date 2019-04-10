@@ -10,7 +10,7 @@ CFLAGS = -g -Wall
 INC = -I include
 
 $(TARGET): $(OBJECTS)
-	@echo " $(CC) $^ -o $(TARGET) $(LIB)"; $(CC) $^ -o $(TARGET) $(LIB)
+	@echo " $(CC) $^ -o $(TARGET)"; $(CC) $^ -o $(TARGET)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(BUILDDIR)
@@ -21,6 +21,10 @@ clean:
 
 # Tests
 tester:
-	$(CC) $(CFLAGS) test/tester.cpp $(INC) $(LIB) -o bin/tester
+	$(CC) $(CFLAGS) test/tester.cpp $(INC) -o bin/tester
+
+run: $(TARGET)
+	@echo " ./$(TARGET) test/test.txt"; ./$(TARGET) test/test.txt
+
 
 .PHONY: clean
