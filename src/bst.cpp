@@ -7,27 +7,28 @@
 
 //Constructor
 BST::BST(){
-    root = NULL;
+    root = nullptr;
 }
 
 //Returns true if there are no nodes in the tree
 bool BST::isEmpty(){
-    return root == NULL;
+    return root == nullptr;
 }
 
 //Used to implement the search function in the main
 //program.
 void BST::contains() const{
-   string input;
-   node *foundNode = NULL;
-   cout << "Search word: ";
-   cin >> input;
-    	if(containsHelper(input, root, foundNode)){
-	    cout << "Line Numbers: " << foundNode->lines[0];
-	    for(int i = 1; i < foundNode->lines.size(); i++)
-		cout << ", " <<foundNode->lines[i]; 
-	    cout << '\n';
-	    }
+	string input;
+    node *foundNode = nullptr;
+    cout << "Search word: ";
+    cin >> input;
+	
+	if (containsHelper(input, root, foundNode)) {
+    	cout << "Line Numbers: " << foundNode->lines[0];
+    	for (int i = 1; i < foundNode->lines.size(); i++)
+			cout << ", " << foundNode->lines[i]; 
+    	cout << '\n';
+    }
 	else
 	    cout << '\"' << input <<"\" is not in the document\n";
 }
@@ -52,15 +53,15 @@ void BST::buildTree(ifstream & input){
 		getline(input, tempLine);
 		for (int i = 0; i < tempLine.length(); i++) {
 		    //Insert valid chars into tempWord until a delimiter( newline or space) is found
-		    while (tempLine[i] != ' '&& tempLine[i] != '\n' && i < tempLine.length() ) {
-			tempWord.insert(tempWord.end(), tempLine[i]);
-			i++;
+		    while (tempLine[i] != ' ' && tempLine[i] != '\n' && i < tempLine.length() ) {
+				tempWord.insert(tempWord.end(), tempLine[i]);
+				i++;
 		    }
 		   
             //Trim any punctuation off end of word. Will leave things like apostrophes
             //and decimal points
             while(tempWord.length() > 0 && !isalnum(tempWord[tempWord.length() - 1]))
-			    tempWord.resize(tempWord.size() -1);   
+			    tempWord.resize(tempWord.size() - 1);   
 			
             if (tempWord.length() > 0)
             {
@@ -74,6 +75,8 @@ void BST::buildTree(ifstream & input){
 		    }
 			
 		}
+		cout << "[DEBUG] tempLine = " + tempLine + "\n";
+
 		line++;
 	}
 	//Do time and height calculation
@@ -100,9 +103,9 @@ void BST::buildTree(ifstream & input){
 //the word was found at, node is the node of the tree being
 //examined, and distWord is incremented if a new word is created
 //and used by buildTree
-void BST::insertHelper(const string &x, int line, node *& t, int &distWord){
-    if(t == NULL){
-	    t = new node(x, NULL, NULL);
+void BST::insertHelper(const string &x, int line, node *& t, int &distWord) {
+    if(t == nullptr){
+	    t = new node(x, nullptr, nullptr);
 	    t->lines.push_back(line);
 	    distWord++;
     }
@@ -122,8 +125,8 @@ void BST::insertHelper(const string &x, int line, node *& t, int &distWord){
 //Used by contains() to see if a words is present or not. Will
 //give contains() a pointer to the found node so that contains()
 //can prints the lines the word was found on.
-bool BST::containsHelper(const string & x, node * t, node * &result) const{
-	if (t == NULL)
+bool BST::containsHelper(const string & x, node * t, node * &result) const {
+	if (t == nullptr)
 		return false;
 	if (t->key.compare(x) == 0){
 	    result = t;
@@ -137,7 +140,7 @@ bool BST::containsHelper(const string & x, node * t, node * &result) const{
 
 //Called by printTree(), does the actual formatted printing
 void BST::printTreeHelper(node *t, ostream & out) const{
-    if(t == NULL)
+    if(t == nullptr)
 		return;
 	else {
 		printTreeHelper(t->left, out);
@@ -152,7 +155,7 @@ void BST::printTreeHelper(node *t, ostream & out) const{
 
 //Returns height of tree. If tree has only one node, height is 1    
 int BST::findHeight(node *t){
-    if(t == NULL)
+    if(t == nullptr)
 	return 0;
     else{
 	int leftHeight = findHeight(t->left), rightHeight = findHeight(t->right);

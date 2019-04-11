@@ -24,7 +24,7 @@ tester:
 	$(CC) $(CFLAGS) test/tester.cpp $(INC) -o bin/tester
 
 run: $(TARGET)
-	@echo " ./$(TARGET) test/test.txt"; ./$(TARGET) test/test.txt
+	@echo " ./$(TARGET) test/test.txt"; ./$(TARGET) test/singlechar.txt
 
 
 .PHONY: clean
