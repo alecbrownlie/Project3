@@ -24,17 +24,17 @@ void T3T::contains() const {
     cin >> input;
 
     if (containsHelper(input, root, foundNode)) {
-        if (!foundNode->getLeftKey().empty() && input == foundNode->getLeftKey()) {
-            cout << "Line Numbers: " << foundNode->getLeftVal()[0];
-            for (unsigned i = 1; i < foundNode->getLeftVal().size(); i++)
-                cout << ", " << foundNode->getLeftVal()[i];
+        if (!foundNode->lkey.empty() && input == foundNode->lkey {
+            cout << "Line Numbers: " << foundNode->lval[0];
+            for (int i = 1; i < foundNode->lval.size(); i++)
+                cout << ", " << foundNode->lval()[i];
             cout << '\n';
         }
-        else if (!foundNode->getRightKey().empty())
+        else if (!foundNode->rkey.empty())
         {
-            cout << "Line Numbers: " << foundNode->getRightVal()[0];
-            for (unsigned i = 1; i < foundNode->getRightVal().size(); i++)
-                cout << ", " << foundNode->getRightVal()[i];
+            cout << "Line Numbers: " << foundNode->rval[0];
+            for (int i = 1; i < foundNode->rval.size(); i++)
+                cout << ", " << foundNode->rval[i];
             cout << '\n';
         }
     }
