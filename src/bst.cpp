@@ -75,8 +75,6 @@ void BST::buildTree(ifstream & input){
 		    }
 			
 		}
-		cout << "[DEBUG] tempLine = " + tempLine + "\n";
-
 		line++;
 	}
 	//Do time and height calculation
