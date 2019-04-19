@@ -20,19 +20,18 @@ class T3T {
     private:
         struct node {
             node() {center = left = right = nullptr; }
-            // node(const string &leftKey, const string &rightKey, node *leftNode, node *centerNode, node *rightNode)
-            //     :lkey(leftKey), rkey(rightKey), left(leftNode), center(centerNode), right(rightNode) {
-            //         lval.resize(0);
-            //         rval.resize(0);
-            // }
 
-            node(const string &lk, vector<int> lv, const string &rk, vector<int> rv, node* p1, node* p2, node* p3)
-                :lkey(lk), lval(lv), rkey(rk), rval(rv), left(p1), center(p2), right(p3){}
+            node(const string &lk, const string &rk, node* p1, node* p2, node* p3)
+                :lkey(lk), rkey(rk), left(p1), center(p2), right(p3) {
+                    lval.resize(0);
+                    rval.resize(0);
+                }
 
             string lkey;                    // The node's left key
             vector<int> lval;
             string rkey;                    // The node's right key
             vector<int> rval;
+
             node *left;                     // Pointer to left child
             node *center;                   // Pointer to middle child
             node *right;                    // Pointer to right child   

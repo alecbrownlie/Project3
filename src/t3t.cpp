@@ -55,7 +55,6 @@ void T3T::buildTree(ifstream & input){
         int line = 1, numWords = 0, distWords = 0, treeHeight = 0;
     stringstream tempWord;
     double totalTime, finishTime, startTime = clock();
-    
     while (!input.eof()) {
         string tempLine, tempWord;
 
@@ -71,11 +70,10 @@ void T3T::buildTree(ifstream & input){
             //Trim any punctuation off end of word. Will leave things like apostrophes
             //and decimal points
             while(tempWord.length() > 0 && !isalnum(tempWord[tempWord.length() - 1]))
-                tempWord.resize(tempWord.size() -1);   
+                tempWord.resize(tempWord.size() - 1);   
             
             if (tempWord.length() > 0)
             {
-                
                 root = insertHelper(tempWord, line, root, distWords);
                 //Increment our total number of words inserted
                 numWords++;
@@ -103,7 +101,7 @@ void T3T::buildTree(ifstream & input){
     <<"Total time spent building index: " << totalTime << endl;
 
     cout << setw(40) << std::left
-    <<"Height of T3T is : " << treeHeight << endl;
+    <<"Height of 2-3 Tree is : " << treeHeight << endl;
 }
 
 //Used by contains() to see if a words is present or not. Will
@@ -137,29 +135,36 @@ bool T3T::containsHelper(const string & x, node *t, node* &result) const{
 T3T::node *T3T::insertHelper(const string &x, int line, node *rt, int &distWord) {
     node* retval;
     if (rt == nullptr) { 
+        rt = new node(x, "", nullptr, nullptr, nullptr);
+        rt->lval.push_back(line);
         distWord++;
-        vector<int> v;
-        v.push_back(line);
-        return new node(x, v, "", vector<int>(), nullptr, nullptr, nullptr);
+        return rt;
     }
 
-    if (x == rt->lkey) {
+    if (rt->isLeaf()) {
+        if (x == rt->lkey) {
+            rt->lval.push_back(line);
+            return rt;
+        }
+        else if (x == rt->rkey){
+            rt->rval.push_back(line);
+            return rt;
+        } 
+        retval = new node(x, "", nullptr, nullptr, nullptr);
+        retval->lval.push_back(line);
+        distWord++;
+        return rt->add(retval);
+    }
+
+    else if (x == rt->lkey) {
         rt->lval.push_back(line);
         return rt;
     }
-    if (x == rt->rkey){
+    else if (x == rt->rkey){
         rt->rval.push_back(line);
         return rt;
-    }
-
-    if (rt->isLeaf()){ 
-        distWord++;
-        vector<int> v;
-        v.push_back(line);
-        return rt->add(new node(x, v, "", vector<int>(), nullptr, nullptr, nullptr));
-    }
-
-    if (x < rt->lkey) { 
+    }     
+    else if (x < rt->lkey) { 
         retval = insertHelper(x, line, rt->left, distWord);
         if (retval == rt->left) return rt;
         else return rt->add(retval);
@@ -183,29 +188,35 @@ T3T::node *T3T::node::add(node *it) {
           center = it->left; right = it->center;
         }
         else {
-          rkey = lkey; rval = lval; right = center;
-          lkey = it->lkey; lval = it->lval;
+          rkey = lkey; left = it->left; rval = lval; 
+          right = center; lkey = it->lkey;
+          lval.resize(0); 
+          lval = it->lval;
           center = it->center;
         }
         return this;
     }
     else if (lkey >= it->lkey) { 
-        node *N1 = new node(lkey, lval, "", vector<int>(), it, this, nullptr);
+        node *N1 = new node(lkey, "", it, this, nullptr);
+        N1->lval = lval;
         it->setLeftChild(left);
         left = center; center = right; right = nullptr;
-        lkey = rkey; lval = rval; rkey = ""; rval = vector<int>();
+        lkey = rkey; lval = rval; rkey = ""; rval.resize(0);
         return N1;
     }
     else if (rkey >= it->lkey) {
-        it->setCenterChild(new node(rkey, rval, "", vector<int>(), it->center, right, nullptr));
+        node *N1 = new node(rkey, "", it->center, right, nullptr);
+        N1->lval = rval;
+        it->setCenterChild(N1);
         it->setLeftChild(this);
-        rkey = ""; rval = vector<int>();right = nullptr;
+        rkey = ""; rval.resize(0);right = nullptr;
         return it;  
     }
     else { 
-        node *N1 = new node(rkey, rval, "", vector<int>(), this, it, nullptr);
+        node *N1 = new node(rkey, "", this, it, nullptr);
+        N1->lval = rval;
         it->setLeftChild(right);
-        right = nullptr; rkey = ""; rval = vector<int>();
+        right = nullptr; rkey = ""; rval.resize(0);
         return N1;
     }
 } 
@@ -215,23 +226,17 @@ void T3T::printTreeHelper(node *t, ostream & out) const{
     if(t == nullptr)
         return;
     else {
+        printTreeHelper(t->left, out);
         vector<int> lval = t->lval;
         out << setw(30) << std::left;
         out << t->lkey << " " << lval[0];
         for (int i = 1; i < lval.size(); i++)
             out << ", " << lval[i];
         out << endl;
-        if (!t->rkey.empty()) {
-            vector<int> rval = t->rval;
-            out << setw(30) << std::left;
-            out << t->rkey << " " << rval[0];
-            for (int i = 1; i < rval.size(); i++)
-                out << ", " << rval[i];
-            out << endl;
-        }
-        printTreeHelper(t->left, out);
-        printTreeHelper(t->center, out);
-        if (!t->rkey.empty()) 
+        
+     
+            printTreeHelper(t->center, out);
+     
             printTreeHelper(t->right, out);
     }
 }
