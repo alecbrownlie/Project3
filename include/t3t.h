@@ -22,31 +22,22 @@ class T3T {
             node() {center = left = right = nullptr; }
 
             node(const string &lk, const string &rk, node* p1, node* p2, node* p3)
-                :lkey(lk), rkey(rk), left(p1), center(p2), right(p3) {
-                    lval.resize(0);
-                    rval.resize(0);
+                :lkey(lk), rkey(rk), left(p1), center(p2), right(p3) { 
+                    lval.resize(0); rval.resize(0);
                 }
 
             string lkey;                    // The node's left key
-            vector<int> lval;
+            vector<int> lval;               // The tree's left index
             string rkey;                    // The node's right key
-            vector<int> rval;
+            vector<int> rval;               // The tree's right index
 
             node *left;                     // Pointer to left child
             node *center;                   // Pointer to middle child
             node *right;                    // Pointer to right child   
 
             bool isLeaf()                   { return left == nullptr; }
-            node *getLeftChild()            { return left; }
-            node *getRightChild()           { return right; }
-            node *getCenterChild()          { return center; }
-            string getLeftKey()             { return lkey; }
-            vector<int> getLeftVal()        { return lval;}
-            string getRightKey()            { return rkey; }
-            vector<int> getRightVal()       { return rval;}
             void setLeftChild(node * l)     { left = l; }
             void setCenterChild(node * c)   { center = c; }
-            void setRightChild(node * r)    { right = r; }
             node *add(node *it);
         };
 
