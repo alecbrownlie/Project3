@@ -247,15 +247,17 @@ void T3T::printTreeHelper(node* t, ostream & out) const{
     }
 }
 
-//Returns height of tree. If tree has only one node, height is 1
-int T3T::findHeight(node* t){
-    if(t == NULL)
+//Returns height of tree. If tree has only one node, height is 1    
+int T3T::findHeight(node *t){
+    if(t == nullptr)
         return 0;
-    else {
-        int leftHeight = findHeight(t->left), rightHeight = findHeight(t->right);
-        if(leftHeight > rightHeight)
-            return(leftHeight+1);
+    else{
+        int leftHeight = findHeight(t->left), centerHeight = findHeight(t->center), rightHeight = findHeight(t->right);
+        if (leftHeight > rightHeight && leftHeight > centerHeight)
+            return(leftHeight + 1);
+        else if (rightHeight > leftHeight && rightHeight > centerHeight)
+            return(rightHeight + 1);
         else
-            return(rightHeight+1);
+            return(centerHeight + 1);
     }
 }
