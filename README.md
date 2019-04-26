@@ -8,3 +8,4 @@ To run:
 [./Project3]$ make
 [./Project3]$ ./bin/main <file.txt>
 ```
+- GitHub link: https://github.com/alecbrownlie/Project3
