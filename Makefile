@@ -10,6 +10,7 @@ CFLAGS = -g -Wall
 INC = -I include
 
 $(TARGET): $(OBJECTS)
+	mkdir -p bin
 	@echo " $(CC) $^ -o $(TARGET)"; $(CC) $^ -o $(TARGET)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
@@ -21,6 +22,5 @@ clean:
 
 test: $(TARGET)
 	@echo " ./$(TARGET) test/test.txt"; ./$(TARGET) test/test.txt
-
 
 .PHONY: clean
