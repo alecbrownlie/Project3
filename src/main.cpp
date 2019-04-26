@@ -11,7 +11,7 @@ using namespace std;
 void runBST(ifstream &input) {
 	int choice;
 	BST myTree;
-	myTree.buildTree(input);
+	myTree.buildTree(input, true);
     input.close();
     while(1) {
         choice = 0;
@@ -46,7 +46,7 @@ void runBST(ifstream &input) {
 void runT3T(ifstream &input) {
 	int choice;
 	T3T myTree;
-	myTree.buildTree(input);
+	myTree.buildTree(input, true);
     input.close();
     while(1) {
         choice = 0;
@@ -100,8 +100,26 @@ int main(int argc, char* argv[]) {
 				runT3T(input);
 				break;
 			}
+            if (selection == 'c') {
+                BST myBST;
+                cout << "Building BST...\n";
+                myBST.buildTree(input, false);
+                input.close();
 
-			// TODO: compare BST and T3T
+                input.open(argv[1]);
+                T3T myT3T;
+                cout << "Building 2-3 Tree...\n";
+                myT3T.buildTree(input , false);
+                input.close();
+
+                input.open(argv[1]);
+                cout << "Searching BST and 2-3 Tree...\n";
+                myBST.searchTree(input);
+                input.close();
+                input.open(argv[1]);
+                myT3T.searchTree(input);
+                break;
+            }
 		}
     }
 	else {

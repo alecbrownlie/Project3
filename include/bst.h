@@ -16,7 +16,8 @@ class BST{
         void contains() const;
         bool isEmpty();
         void printTree(ostream & out = cout) const;
-        void buildTree(ifstream & input);
+        void buildTree(ifstream & input, bool outputFlag);
+        void searchTree(ifstream & input);
     private:
 	    struct node{
 		    node(const string &x, node *l, node *r)

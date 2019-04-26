@@ -42,7 +42,7 @@ void BST::printTree(ostream & out) const {
 
 //Receives the specified input file and constructs 
 //the actual tree. Prints a message when finished.
-void BST::buildTree(ifstream & input){
+void BST::buildTree(ifstream & input, bool outputFlag) {
 	int line = 1, numWords = 0, distWords = 0, treeHeight = 0;
 	stringstream tempWord;
 	double totalTime, finishTime, startTime = clock();
@@ -82,19 +82,56 @@ void BST::buildTree(ifstream & input){
 	totalTime = (double) (finishTime - startTime)/CLOCKS_PER_SEC;
 	treeHeight = findHeight(root);
 
-	//Print output
-	cout << setw(40) << std::left;
-	cout << "Total number of words: " << numWords<< endl;
+	if (outputFlag) {
+		//Print output
+		cout << setw(40) << std::left;
+		cout << "Total number of words: " << numWords<< endl;
 
-	cout << setw(40) << std::left 
-	<< "Total number of distinct words: " << distWords << endl;
+		cout << setw(40) << std::left 
+		<< "Total number of distinct words: " << distWords << endl;
 
-	cout << setw(40) << std::left 
-	<<"Total time spent building index: " << totalTime << endl;
+		cout << setw(40) << std::left 
+		<<"Total time spent building index: " << totalTime << endl;
 
-	cout << setw(40) << std::left
-	<<"Height of BST is : " << treeHeight << endl;
+		cout << setw(40) << std::left
+		<<"Height of BST is : " << treeHeight << endl;
+	}
  
+}
+
+void BST::searchTree(ifstream & input){
+    node* n;
+    stringstream tempWord;
+    double totalTime, finishTime, startTime = clock();
+    while (!input.eof()) {
+        string tempLine, tempWord;
+        
+        //Read a whole line of text from the file
+        getline(input, tempLine);
+        for (int i = 0; i < tempLine.length(); i++) {
+            //Insert valid chars into tempWord until a delimiter( newline or space) is found
+            while (tempLine[i] != ' '&& tempLine[i] != '\n' && i < tempLine.length() ) {
+                tempWord.insert(tempWord.end(), tempLine[i]);
+                i++;
+            }
+
+            //Trim any punctuation off end of word. Will leave things like apostrophes
+            //and decimal points
+            while(tempWord.length() > 0 && !isalnum(tempWord[tempWord.length() - 1]))
+                tempWord.resize(tempWord.size() -1);
+
+            if (tempWord.length() > 0)
+            {
+                containsHelper(tempWord, root, n);
+                tempWord.clear();
+            }
+        }
+    }
+    //Do time and height calculation
+    finishTime = clock();
+    totalTime = (double) (finishTime - startTime)/CLOCKS_PER_SEC;
+	cout << setw(40) << std::left 
+	<< "Total time taken by BST: " << totalTime << endl;
 }
 
 //x is the word to insert, line is the line in the text file

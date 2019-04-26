@@ -16,7 +16,8 @@ class T3T {
         void contains() const;
         bool isEmpty();
         void printTree(ostream &out = cout) const;
-        void buildTree(ifstream &input);
+        void buildTree(ifstream & input, bool outputFlag);
+        void searchTree(ifstream & input);
     private:
         struct node {
             node() {center = left = right = nullptr; }
