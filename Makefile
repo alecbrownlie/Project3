@@ -19,12 +19,8 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 clean:
 	@echo " $(RM) -r $(BUILDDIR) $(TARGET)"; $(RM) -r $(BUILDDIR) $(TARGET)
 
-# Tests
-tester:
-	$(CC) $(CFLAGS) test/tester.cpp $(INC) -o bin/tester
-
-run: $(TARGET)
-	@echo " ./$(TARGET) test/test.txt"; ./$(TARGET) test/engmix.txt
+test: $(TARGET)
+	@echo " ./$(TARGET) test/test.txt"; ./$(TARGET) test/test.txt
 
 
 .PHONY: clean
